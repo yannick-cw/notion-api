@@ -1,0 +1,102 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e388ba0e557e43a722764dbddff79d689bcbb83f35720557cf1a9d364c41fe58
+
+name:           notion-api
+version:        0.0.1
+description:    Please see the README on GitHub at <https://github.com/githubuser/notion-api#readme>
+homepage:       https://github.com/yannick-cw/notion-api#readme
+bug-reports:    https://github.com/yannick-cw/notion-api/issues
+author:         Yannick
+maintainer:     https://www.dev-log.me
+copyright:      2019 Yannick
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/yannick-cw/notion-api
+
+library
+  exposed-modules:
+      NotionApi.High
+      NotionApi.Low
+      NotionApi.Types
+  other-modules:
+      Paths_notion_api
+  hs-source-dirs:
+      src
+  default-extensions: OverloadedStrings DeriveGeneric DuplicateRecordFields LambdaCase FlexibleContexts FlexibleInstances
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-orphans -fwarn-unused-imports -fwarn-unused-binds -isrc -Widentities
+  build-depends:
+      aeson
+    , aeson-pretty
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , either
+    , exceptions
+    , extra
+    , filepath
+    , hspec
+    , http-client
+    , lens
+    , lens-aeson
+    , mtl
+    , optparse-applicative
+    , parsec
+    , random
+    , safe
+    , split
+    , text
+    , time
+    , transformers
+    , unordered-containers
+    , uuid
+    , wreq
+  default-language: Haskell2010
+
+test-suite notion-api-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_notion_api
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , aeson-pretty
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , either
+    , exceptions
+    , extra
+    , filepath
+    , hspec
+    , http-client
+    , lens
+    , lens-aeson
+    , mtl
+    , notion-api
+    , optparse-applicative
+    , parsec
+    , random
+    , safe
+    , split
+    , text
+    , time
+    , transformers
+    , unordered-containers
+    , uuid
+    , wreq
+  default-language: Haskell2010
