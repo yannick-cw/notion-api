@@ -3,20 +3,10 @@ module NotionApi.Low
   )
 where
 
-import           Data.Aeson.Types               ( ToJSON
-                                                , FromJSON(..)
-                                                , sumEncoding
-                                                , defaultOptions
-                                                , SumEncoding(..)
-                                                , Value
-                                                )
 import           Data.ByteString.Lazy.Char8    as C
                                                 ( unpack )
 import           Data.ByteString.Lazy.Internal  ( ByteString )
 import           Control.Monad.Reader
-import           Data.Aeson                     ( genericParseJSON )
-import           Data.Map                      as M
-                                                ( Map )
 import           Data.Text                     as T
                                                 ( Text
                                                 , pack
@@ -26,43 +16,15 @@ import           Data.Text.IO                  as T
 import           Data.Text.Encoding             ( encodeUtf8 )
 import           Data.Aeson.Encode.Pretty       ( encodePretty )
 import           Network.Wreq
-import           Data.UUID
-import           GHC.Generics
 import           Network.HTTP.Client            ( createCookieJar
                                                 , Cookie(Cookie)
                                                 )
 import           Data.Aeson.Types               ( emptyObject
                                                 , ToJSON
-                                                , FromJSON(..)
-                                                , sumEncoding
-                                                , unwrapUnaryRecords
-                                                , genericToJSON
-                                                , fieldLabelModifier
-                                                , defaultOptions
-                                                , SumEncoding(..)
                                                 )
-import           Data.Aeson.Lens                ( _Object
-                                                , key
-                                                )
-import           Data.Aeson                     ( toJSON
-                                                , genericParseJSON
-                                                )
+import           Data.Aeson                     ( toJSON )
 import           Data.Time.Clock
-import           Data.ByteString.Char8          ( pack )
-import           Data.Text                      ( unpack )
-import           Data.Maybe                     ( listToMaybe
-                                                , catMaybes
-                                                , maybeToList
-                                                )
-import           Data.HashMap.Strict            ( keys
-                                                , HashMap
-                                                , fromList
-                                                )
-import           Data.UUID
-import           Data.List.Split                ( splitWhen )
 import           Control.Lens
-import           GHC.Generics
-import           System.Random                  ( randomIO )
 import           NotionApi.Types
 
 

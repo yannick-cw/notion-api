@@ -5,14 +5,14 @@ import           Data.Text
 import           Control.Monad.Reader
 import           GHC.Generics
 import           Data.UUID
-import           Data.Map                      as M
-                                                ( Map )
-import           Data.Aeson.Types               ( ToJSON
+import           Data.HashMap.Strict            ( HashMap )
+import           Data.Aeson.Types               ( ToJSON(..)
                                                 , FromJSON(..)
                                                 , sumEncoding
                                                 , defaultOptions
+                                                , genericToJSON
+                                                , unwrapUnaryRecords
                                                 , SumEncoding(..)
-                                                , Value
                                                 )
 import           Control.Monad.Catch            ( MonadThrow )
 
@@ -31,17 +31,29 @@ runNotionMVerbose notionId notionM =
 -- UserContent
 newtype UserContent = UserContent { recordMap :: RecordMap } deriving (Show, Generic)
 instance FromJSON UserContent
-newtype RecordMap = RecordMap { notion_user :: Map UUID NotionUser } deriving (Show, Generic)
+newtype RecordMap = RecordMap { notion_user :: HashMap UUID NotionUser } deriving (Show, Generic)
 instance FromJSON RecordMap
 data NotionUser = NotionUser { role :: Text, value :: UserData } deriving (Show, Generic)
 instance FromJSON NotionUser
 data UserData = UserData { id :: UUID, email :: Text, given_name :: Text, family_name :: Text } deriving (Show, Generic)
 instance FromJSON UserData
 
--- Transactions
+-- Transactions Low
 newtype Transaction = Transaction { operations :: [ Operation ] } deriving (Generic)
 instance ToJSON Transaction
-data Operation = Operation { id :: String, path :: [String], command :: String, table :: String, args :: [[Text]] } deriving (Generic)
+data Operation = Operation { id :: Text, path :: [Text], command :: Text, table :: Text, args :: Arg } deriving (Generic)
 instance ToJSON Operation
+data TextOrNum = S Text | N Int deriving (Generic)
+instance ToJSON TextOrNum where
+  toJSON = genericToJSON
+    (defaultOptions { sumEncoding = UntaggedValue, unwrapUnaryRecords = True })
+data Arg =  ArrayArgs [[Text]]  | ObjArgs ( HashMap Text TextOrNum ) deriving (Generic)
+instance ToJSON Arg where
+  toJSON = genericToJSON
+    (defaultOptions { sumEncoding = UntaggedValue, unwrapUnaryRecords = True })
 
+-- Transactions High
+data Element = SubHeader Text | TextContent Text | Divider
+data Action = AppendElement { _type :: Element, parentPageId :: UUID }
+            | InsertInElement { elementId :: UUID, content :: Text }
 
